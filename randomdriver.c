@@ -10,14 +10,8 @@
 #include <linux/uaccess.h> 
 
 
-#define DEVICE_NAME "ranDev"
+#define DEVICE_NAME "ranIntDevice"
 #define CLASS_NAME  "ranClass"
-
-module_init(ofcd_init);
-module_exit(ofcd_exit);
-MODULE_LICENSE("GPL");
-MODULE_AUTHOR("Phan Long Hieu - Huynh Van Hien - Nguyen Dang Trung Tien");
-MODULE_DESCRIPTION("A simple Linux char driver - Generate a random number");
 
 
 static dev_t first; 
@@ -26,12 +20,10 @@ static struct class *cl;
 
 static int my_open(struct inode *i, struct file *f)
 {
-	printk(KERN_INFO "Random Driver: open()\n");
 	return 0;
 }
 static int my_close(struct inode *i, struct file *f)
 {
-	printk(KERN_INFO "Random Driver: close()\n");
 	return 0;
 }
 static ssize_t my_read(struct file *f, char *buf, size_t len, loff_t *off)
@@ -40,11 +32,11 @@ static ssize_t my_read(struct file *f, char *buf, size_t len, loff_t *off)
 	get_random_bytes(&rannum, sizeof(rannum));
 	
 	if (copy_to_user(buf, &rannum, sizeof(rannum)) == 0){
-		printk(KERN_INFO "Driver: The random number is: %d\n", rannum);
+		printk(KERN_INFO "Random Driver: The random number is: %d\n", rannum);
 		return 0;
 	}
 	else {
-		printk(KERN_INFO "Generator: Failed to sent a number to the user\n");
+		printk(KERN_INFO "Random Driver: Failed to sent a number to the user\n");
 		return -EFAULT;
 	}
 }
@@ -85,7 +77,7 @@ static int __init ofcd_init(void) /* Constructor */
 		unregister_chrdev_region(first, 1);
 		return -1;
 	}
-	printk(KERN_INFO "Random device register sucessfully\n");
+	printk(KERN_INFO "Random Driver: Random device register sucessfully\n");
 	return 0;
 }
 static void __exit ofcd_exit(void) /* Destructor */
@@ -94,5 +86,12 @@ static void __exit ofcd_exit(void) /* Destructor */
 	device_destroy(cl, first);
 	class_destroy(cl);
 	unregister_chrdev_region(first, 1);
-	printk(KERN_INFO "Random Device unregistered \n");
+	printk(KERN_INFO "Random Driver: Random Device unregistered \n");
 }
+
+module_init(ofcd_init);
+module_exit(ofcd_exit);
+MODULE_LICENSE("GPL");
+MODULE_AUTHOR("Phan Long Hieu - Huynh Van Hien - Nguyen Dang Trung Tien");
+MODULE_DESCRIPTION("A simple Linux char driver - Generate a random number");
+
