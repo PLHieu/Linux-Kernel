@@ -17,38 +17,36 @@ module_init(ofcd_init);
 module_exit(ofcd_exit);
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Phan Long Hieu - Huynh Van Hien - Nguyen Dang Trung Tien");
-MODULE_DESCRIPTION("A simple Linux char driver");
+MODULE_DESCRIPTION("A simple Linux char driver - Generate a random number");
 
 
 static dev_t first; 
 static struct cdev c_dev; 
 static struct class *cl; 
-static unsigned int rannum;
 
 static int my_open(struct inode *i, struct file *f)
 {
-	printk(KERN_INFO "Driver: open()\n");
+	printk(KERN_INFO "Random Driver: open()\n");
 	return 0;
 }
 static int my_close(struct inode *i, struct file *f)
 {
-	printk(KERN_INFO "Driver: close()\n");
+	printk(KERN_INFO "Random Driver: close()\n");
 	return 0;
 }
 static ssize_t my_read(struct file *f, char *buf, size_t len, loff_t *off)
 {
-
-	int error_count = 0;
+	unsigned int rannum=0;
 	get_random_bytes(&rannum, sizeof(rannum));
 	
-    if (copy_to_user(buf, &rannum, sizeof(rannum)) == 0){
-        printk(KERN_INFO "Driver: The random number is: %d\n", rannum);
-        return 0;
-    }
-    else {
-        printk(KERN_INFO "Generator: Failed to sent a number to the user\n");
-        return -EFAULT;
-    }
+	if (copy_to_user(buf, &rannum, sizeof(rannum)) == 0){
+		printk(KERN_INFO "Driver: The random number is: %d\n", rannum);
+		return 0;
+	}
+	else {
+		printk(KERN_INFO "Generator: Failed to sent a number to the user\n");
+		return -EFAULT;
+	}
 }
 
 static struct file_operations pugs_fops =
@@ -61,7 +59,7 @@ static struct file_operations pugs_fops =
 
 static int __init ofcd_init(void) /* Constructor */
 {
-	if (alloc_chrdev_region(&first, 0, 1, "Shweta") < 0)
+	if (alloc_chrdev_region(&first, 0, 1, "RAlumni") < 0)
 	{
 		return -1;
 	}
