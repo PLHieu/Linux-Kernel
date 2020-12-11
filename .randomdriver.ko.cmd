@@ -1,1 +1,0 @@
-cmd_/home/plh/Desktop/final/randomdriver.ko := ld -r -m elf_x86_64  -z max-page-size=0x200000  --build-id  -T ./scripts/module-common.lds -o /home/plh/Desktop/final/randomdriver.ko /home/plh/Desktop/final/randomdriver.o /home/plh/Desktop/final/randomdriver.mod.o;  true
