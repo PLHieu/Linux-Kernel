@@ -18,11 +18,11 @@ int main(){
     //Read number in mynull
     ret = read(fd, &value, sizeof(value));
     if (ret < 0){
-        perror("Failed to read\n");
+        perror("Failed to read random number\n");
         return errno;
     }
 
-    printf("A received number is %d", value);
+    printf("Random number is %d", value);
     
     return 0;
 }
