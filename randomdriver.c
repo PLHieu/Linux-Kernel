@@ -33,7 +33,7 @@ static ssize_t my_read(struct file *f, char *buf, size_t len, loff_t *off)
 	
 	// error_count = copy_to_user(buf, rannum, sizeof(rannum));
 
-    if (copy_to_user(buf, rannum, sizeof(rannum)) == 0){
+    if (copy_to_user(buf, &rannum, sizeof(rannum)) == 0){
         printk(KERN_INFO "Driver: The random number is: %d\n", rannum);
         return 0;
     }
