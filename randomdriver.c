@@ -37,7 +37,7 @@ static ssize_t my_read(struct file *f, char *buf, size_t len, loff_t *off)
 	}
 	else {
 		printk(KERN_INFO "Random Driver: Failed to sent a number to the user\n");
-		return 0;
+		return -EFAULT;
 	}
 }
 
