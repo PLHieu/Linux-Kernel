@@ -51,7 +51,7 @@ static struct file_operations pugs_fops =
 
 static int __init ofcd_init(void) /* Constructor */
 {
-	if (alloc_chrdev_region(&first, 0, 1, "RAlumni") < 0)
+	if (alloc_chrdev_region(&first, 0, 1, "randomdriver") < 0)
 	{
 		return -1;
 	}
