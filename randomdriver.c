@@ -33,11 +33,11 @@ static ssize_t my_read(struct file *f, char *buf, size_t len, loff_t *off)
 	
 	if (copy_to_user(buf, &rannum, sizeof(rannum)) == 0){
 		printk(KERN_INFO "Random Driver: The random number is: %d\n", rannum);
-		return 0;
+		return 4;
 	}
 	else {
 		printk(KERN_INFO "Random Driver: Failed to sent a number to the user\n");
-		return -EFAULT;
+		return 0;
 	}
 }
 
